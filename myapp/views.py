@@ -515,13 +515,3 @@ def add_comment(request,id):
         return redirect('blog_list')
     
     return redirect('blog_list')
-    
-
-
-
-
-
-
-
-    
-    
