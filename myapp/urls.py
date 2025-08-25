@@ -30,7 +30,7 @@ urlpatterns = [
     path('edit-blog/<int:id>/', views.edit_blog, name='edit_blog'),
     path('delete-blog/<int:id>/',views.delete_blog,name='delete_blog'),
     path('comment/<int:id>/', views.add_comment,name='add_comment'),
-    path('users/',include('users.urls')),
+  
 
 #------------------- Admin Urls ---------------------
 

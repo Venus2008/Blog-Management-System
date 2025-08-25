@@ -24,9 +24,9 @@
     <div class="mb-3">
       <label class="form-label">Role</label>
       <select name="role" class="form-select" required>
-        {% for val,label in roles %}
-          <option value="{{ val }}">{{ label }}</option>
-        {% endfor %}
+        <option value="USER">-- Select Role --</option>
+        <option value="USER">USER</option>
+        <option value="ADMIN">ADMIN</option>
       </select>
     </div>
 
