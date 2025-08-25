@@ -15,9 +15,9 @@ from django.views.decorators.cache import cache_control
 from django.db.models import Q
 
 
-# def is_valid_email(email):
-#     pattern = r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}+$'
-#     return re.match(pattern, email) is not None
+def is_valid_email(email):
+    pattern = r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}+$'
+    return re.match(pattern, email) is not None
 
 # ---------------------------------------- Admin Pages ----------------------------------
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)

@@ -39,7 +39,7 @@ def register(request):
         messages.success(request,'User register successfully')
         return redirect('login')
     
-    return render(request, 'registration.html',{'roles':RoleChioice.choices})
+    return render(request, 'users/registration.html',{'roles':RoleChioice.choices})
 
 
 def login(request):
@@ -75,7 +75,7 @@ def login(request):
             messages.error(request, 'Invalid email or password')
             return redirect('login')
 
-    return render(request, 'login.html')
+    return render(request, 'users/login.html')
 
 
 def logout(request):
@@ -107,7 +107,7 @@ def password_reset_request(request):
 
         messages.success(request, "We sent you a reset link! Check your email.")
         return redirect('login')
-    return render(request, "password_reset.html")
+    return render(request, "users/password_reset.html")
 
 
 def reset_password(request,token):
@@ -124,4 +124,4 @@ def reset_password(request,token):
         user.save()
         messages.success(request, 'Password Reset Successfully')
         return redirect('login')
-    return render(request,"reset_password.html", {"user": user})
+    return render(request,"users/reset_password.html", {"user": user})
