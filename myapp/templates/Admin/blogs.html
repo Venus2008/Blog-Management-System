@@ -5,10 +5,19 @@
     <h2>Manage Blogs</h2>
 
     <!-- Search form -->
-    <form method="get" action="{% url 'admin_blogs' %}" class="form-inline mb-3">
-        <input type="text" name="q" value="{{ q }}" placeholder="Search blogs..." class="form-control mr-2">
-        <button type="submit" class="btn btn-primary mt-2">Search</button>
-    </form>
+    <form method="get" class="row g-2 mb-3">
+    <div class="col-md-6">
+      <input type="text" name="q" class="form-control" placeholder="Search Blogs...." value="{{ q }}">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-outline-primary w-100">Search</button>
+    </div>
+    {% if q %}
+      <div class="col-md-2">
+        <a href="{% url 'admin_blogs' %}" class="btn btn-outline-secondary w-100">Clear</a>
+      </div>
+    {% endif %}
+  </form>
 
     <!-- Blogs Table -->
     <table class="table table-striped">
