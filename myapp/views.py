@@ -163,7 +163,6 @@ def admin_blogs(request):
     if q:
         blog_qs=blog_qs.filter(
             Q(title__icontains=q)|
-            Q(content__icontains=q)|
             Q(author__username__icontains=q)|
             Q(author__email__icontains=q)
         )
