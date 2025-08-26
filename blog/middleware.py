@@ -1,4 +1,4 @@
-from .models import Users
+from users.models import Users
 from django.contrib.auth.models import AnonymousUser
 
 

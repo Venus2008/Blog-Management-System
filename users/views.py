@@ -5,8 +5,8 @@ from django.core.signing import TimestampSigner, BadSignature, SignatureExpired
 from django.core.mail import send_mail
 signer = TimestampSigner()
 import re
-from myapp.models import Users
-from myapp.constants import RoleChioice
+from users.models import Users
+from users.constants import RoleChioice
 from django.views import View
 
 
