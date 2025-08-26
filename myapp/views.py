@@ -145,7 +145,6 @@ def admin_delete_user(request, user_id):
     current_admin_id = request.session.get('frontend_user_id')
     obj = get_object_or_404(Users, id=user_id)
 
-    # prevent accidental self-delete
     if obj.id == current_admin_id:
         messages.error(request, "You cannot delete your own admin account.")
         return redirect('admin_users')
