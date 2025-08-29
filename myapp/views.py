@@ -389,129 +389,129 @@ def admin_delete_comments(request,comment_id):
 # ---------------------------------------- Blog Pages ----------------------------------
 
 
-def entry_page(request):
-    return render(request, 'entry_page.html')
+# def entry_page(request):
+#     return render(request, 'entry_page.html')
 
 
-def guest_blog_list(request):
-    blogs = Blog.objects.all().order_by('-created_at')
-    paginator = Paginator(blogs, 6)  
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+# def guest_blog_list(request):
+#     blogs = Blog.objects.all().order_by('-created_at')
+#     paginator = Paginator(blogs, 6)  
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'guest_blog_list.html', {'blogs': page_obj})
-
-
-@role_required('ADMIN','USER','STAFF')
-@login_required
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def index(request):  
-    user = get_logged_in_user(request)
-    return render(request,'index.html', {'user':user})
+#     return render(request, 'guest_blog_list.html', {'blogs': page_obj})
 
 
-
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@role_required('ADMIN','USER','STAFF')
-@login_required
-def add_blogs(request):
-    user = get_logged_in_user(request)
-    if request.method == 'POST':
-        title=request.POST.get('title')
-        content=request.POST.get('content')
-        image=request.FILES.get('image')
-        author=user
-
-        Blog.objects.create(
-            title=title,
-            content=content,
-            image=image,
-            author=author,
-        )
-        messages.success(request,'New Blog Added Successfully')
-        return redirect('blog_list')
-
-    user_blogs=Blog.objects.filter(author=user).order_by('-created_at')
-    return render(request,'Addblogs.html',{'user':user,'blogs':user_blogs,'is_edit':False,'blog':None})
+# @role_required('ADMIN','USER','STAFF')
+# @login_required
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+# def index(request):  
+#     user = get_logged_in_user(request)
+#     return render(request,'index.html', {'user':user})
 
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required
-@role_required('ADMIN','USER','STAFF')
-def blog_list(request):
-    user = get_logged_in_user(request)
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+# @role_required('ADMIN','USER','STAFF')
+# @login_required
+# def add_blogs(request):
+#     user = get_logged_in_user(request)
+#     if request.method == 'POST':
+#         title=request.POST.get('title')
+#         content=request.POST.get('content')
+#         image=request.FILES.get('image')
+#         author=user
 
-    blogs=Blog.objects.annotate(
-        is_author=Case(
-            When(author=user,then=True),
-            default=False,
-            output_field=BooleanField(),
-        )
-    ).order_by('-is_author','-created_at')
-    paginator = Paginator(blogs, 6)  
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+#         Blog.objects.create(
+#             title=title,
+#             content=content,
+#             image=image,
+#             author=author,
+#         )
+#         messages.success(request,'New Blog Added Successfully')
+#         return redirect('blog_list')
 
-    return render(request, 'blog_list.html', {'blogs':page_obj,'user':user})
-
-
-
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@role_required('ADMIN','USER','STAFF')
-@login_required
-def edit_blog(request,id):
-    user = get_logged_in_user(request)
-    blog=get_object_or_404(Blog,author=user,id=id)
-
-    if request.method == 'POST':
-        title=request.POST.get('title')
-        content=request.POST.get('content')
-        image=request.FILES.get('image')
-
-        blog.title=title
-        blog.content=content
-        if image:
-            blog.image=image
-        blog.save()
-
-        messages.success(request,'Blog Updated Successfully')
-        return redirect('blog_list')
-    user_blogs=Blog.objects.filter(author=user).order_by('-created_at')
-    return render(request,'Addblogs.html', {'blog': blog,'blogs':user_blogs,'is_edit':True,'user':user})
+#     user_blogs=Blog.objects.filter(author=user).order_by('-created_at')
+#     return render(request,'Addblogs.html',{'user':user,'blogs':user_blogs,'is_edit':False,'blog':None})
 
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@role_required('ADMIN','USER','STAFF')
-@login_required
-def delete_blog(request,id):
-    user = get_logged_in_user(request)
-    blog=get_object_or_404(Blog,id=id,author=user)
-    blog.delete()
-    return redirect('blog_list')
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+# @login_required
+# @role_required('ADMIN','USER','STAFF')
+# def blog_list(request):
+#     user = get_logged_in_user(request)
+
+#     blogs=Blog.objects.annotate(
+#         is_author=Case(
+#             When(author=user,then=True),
+#             default=False,
+#             output_field=BooleanField(),
+#         )
+#     ).order_by('-is_author','-created_at')
+#     paginator = Paginator(blogs, 6)  
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+
+#     return render(request, 'blog_list.html', {'blogs':page_obj,'user':user})
 
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@role_required('ADMIN','USER','STAFF')
-@login_required
-def add_comment(request,id):
-    user=get_logged_in_user(request)
-    blog=get_object_or_404(Blog,id=id)
-    if request.method == 'POST':
-        content=request.POST.get('content')
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+# @role_required('ADMIN','USER','STAFF')
+# @login_required
+# def edit_blog(request,id):
+#     user = get_logged_in_user(request)
+#     blog=get_object_or_404(Blog,author=user,id=id)
 
-        if not content.strip():
-            messages.error(request,'Comment cannot be Empty')
-            return redirect('blog_list')
+#     if request.method == 'POST':
+#         title=request.POST.get('title')
+#         content=request.POST.get('content')
+#         image=request.FILES.get('image')
+
+#         blog.title=title
+#         blog.content=content
+#         if image:
+#             blog.image=image
+#         blog.save()
+
+#         messages.success(request,'Blog Updated Successfully')
+#         return redirect('blog_list')
+#     user_blogs=Blog.objects.filter(author=user).order_by('-created_at')
+#     return render(request,'Addblogs.html', {'blog': blog,'blogs':user_blogs,'is_edit':True,'user':user})
+
+
+
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+# @role_required('ADMIN','USER','STAFF')
+# @login_required
+# def delete_blog(request,id):
+#     user = get_logged_in_user(request)
+#     blog=get_object_or_404(Blog,id=id,author=user)
+#     blog.delete()
+#     return redirect('blog_list')
+
+
+
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+# @role_required('ADMIN','USER','STAFF')
+# @login_required
+# def add_comment(request,id):
+#     user=get_logged_in_user(request)
+#     blog=get_object_or_404(Blog,id=id)
+#     if request.method == 'POST':
+#         content=request.POST.get('content')
+
+#         if not content.strip():
+#             messages.error(request,'Comment cannot be Empty')
+#             return redirect('blog_list')
         
-        Comment.objects.create(
-            blog=blog,
-            author=user,
-            content=content,
-        )
-        messages.success(request,"Comment added successfully")
-        return redirect('blog_list')
+#         Comment.objects.create(
+#             blog=blog,
+#             author=user,
+#             content=content,
+#         )
+#         messages.success(request,"Comment added successfully")
+#         return redirect('blog_list')
     
-    return redirect('blog_list')
+#     return redirect('blog_list')

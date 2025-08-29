@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}All Blogs{% endblock %}
+
+{% block content %}
+<style>
+  /* circular image on cards */
+  .blog-circle {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 12px auto;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .blog-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+</style>
+
+<div class="container my-4">
+  <h2 class="mb-4 text-center">All Blogs</h2>
+
+  {% if blogs %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% for blog in blogs %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+
+            <!-- Circular image -->
+            {% if blog.image %}
+              <div class="blog-circle mt-3">
+                <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+              </div>
+            {% else %}
+              <div class="blog-circle mt-3">
+                <span class="text-muted">No image</span>
+              </div>
+            {% endif %}
+
+            <div class="card-body pt-0">
+              <h5 class="card-title text-center">{{ blog.title }}</h5>
+            </div>
+
+            <div class="card-footer d-flex justify-content-between align-items-center small text-muted">
+              <span>By {{ blog.author.username|default:blog.author.email }}</span>
+              <span>{{ blog.created_at|date:"M d, Y H:i" }}</span>
+            </div>
+
+            <div class="card-footer text-center">
+              <!-- Guests cannot read full blogs -->
+              <button class="btn btn-sm btn-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#loginRequiredModal">
+                Read
+              </button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-4">
+      <nav aria-label="Blog pagination">
+        <ul class="pagination">
+          {% if blogs.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ blogs.previous_page_number }}">Previous</a></li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+          {% endif %}
+
+          {% for num in blogs.paginator.page_range %}
+            {% if blogs.number == num %}
+              <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% else %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {% if blogs.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ blogs.next_page_number }}">Next</a></li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  {% else %}
+    <p class="text-muted text-center">No blogs available yet.</p>
+  {% endif %}
+</div>
+
+<!-- Login Required Modal -->
+<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login Required</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        You must log in to read full blogs or add comments.
+      </div>
+      <div class="modal-footer">
+        <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+        <a href="{% url 'signup' %}" class="btn btn-secondary">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

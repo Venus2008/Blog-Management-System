@@ -22,14 +22,14 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.entry_page, name='entry_page'),  
-    path('guest', views.guest_blog_list, name='guest_blog_list'),
-    path('home',views.index, name='index'),
-    path('new-blog', views.add_blogs,name='newblogs'),
-    path('blog-list',views.blog_list,name='blog_list'),
-    path('edit-blog/<int:id>/', views.edit_blog, name='edit_blog'),
-    path('delete-blog/<int:id>/',views.delete_blog,name='delete_blog'),
-    path('comment/<int:id>/', views.add_comment,name='add_comment'),
+    # path('', views.entry_page, name='entry_page'),  
+    # path('guest', views.guest_blog_list, name='guest_blog_list'),
+    # path('home',views.index, name='index'),
+    # path('new-blog', views.add_blogs,name='newblogs'),
+    # path('blog-list',views.blog_list,name='blog_list'),
+    # path('edit-blog/<int:id>/', views.edit_blog, name='edit_blog'),
+    # path('delete-blog/<int:id>/',views.delete_blog,name='delete_blog'),
+    # path('comment/<int:id>/', views.add_comment,name='add_comment'),
   
 
 #------------------- Admin Urls ---------------------
