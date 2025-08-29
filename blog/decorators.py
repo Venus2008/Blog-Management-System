@@ -1,7 +1,7 @@
 from django.http import HttpResponseForbidden
 from functools import wraps
 from django.shortcuts import redirect
-from .models import Users
+from users.models import Users
 
 
 

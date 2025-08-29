@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from myapp.models import Users,Blog,Comment
+from users.models import Users
+from blog.models import Blog,Comment
 from django.contrib import messages
-from myapp.constants import RoleChioice
+from users.constants import RoleChioice
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from django.views.decorators.cache import cache_control
 import re
-from myapp.decorators import role_required,login_required
+from blog.decorators import role_required,login_required
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.core.paginator import Paginator
@@ -134,7 +135,7 @@ class AdminEditUser(View):
 
     def get(self,request,user_id):
         obj=get_object_or_404(Users,id=user_id)
-        return render(request, 'admin/edit_user.html', {'user_obj':obj,'roles':RoleChioice.choices})
+        return render(request, 'adminpanel/edit_user.html', {'user_obj':obj,'roles':RoleChioice.choices})
     
     def post(self,request,user_id,*args, **kwargs):
         obj=get_object_or_404(Users,id=user_id)
@@ -303,7 +304,7 @@ class AdminComments(View):
         page_number=request.GET.get('page')
         page_obj=paginator.get_page(page_number)
 
-        return render(request,'Admin/comments.html',{'comments':page_obj,'q':q})
+        return render(request,self.template_name,{'comments':page_obj,'q':q})
 
 
 @method_decorator(

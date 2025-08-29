@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic import TemplateView
 from django.views import View
-from myapp.models import Blog,Comment
+from blog.models import Blog,Comment
 from django.views.generic import ListView
 from django.utils.decorators import method_decorator
-from myapp.decorators import role_required,login_required,get_logged_in_user
+from blog.decorators import role_required,login_required,get_logged_in_user
 from django.views.decorators.cache import cache_control
 from django.contrib import messages
 from django.db.models import Case, When, BooleanField
